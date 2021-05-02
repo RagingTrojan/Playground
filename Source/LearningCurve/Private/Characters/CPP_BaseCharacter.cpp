@@ -6,6 +6,10 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/Controller.h"
+#include "Components/ChildActorComponent.h"
+#include "Weapons/CPP_BaseWeapon.h"
+
+class ACCP_BaseWeapon;
 
 // Sets default values
 ACPP_BaseCharacter::ACPP_BaseCharacter()
@@ -24,6 +28,9 @@ ACPP_BaseCharacter::ACPP_BaseCharacter()
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetupAttachment(RootComponent);
 
+	WeaponComp = CreateDefaultSubobject<UChildActorComponent>(TEXT("WeaponComp"));
+	WeaponComp->SetupAttachment(FirstPersonCameraComp);
+
 	BaseLookRate = 45.0f;
 	BaseTurnRate = 45.0f;
 }
@@ -32,7 +39,6 @@ ACPP_BaseCharacter::ACPP_BaseCharacter()
 void ACPP_BaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ACPP_BaseCharacter::MoveForward(float Value)
@@ -65,22 +71,18 @@ void ACPP_BaseCharacter::LookRight(float Value)
 void ACPP_BaseCharacter::LookUp(float Value)
 {
 	if (Value != 0.0f) AddControllerPitchInput(Value * BaseLookRate * GetWorld()->GetDeltaSeconds());
-	if (Value < 0.0f) GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("LOOKUP! ----"));
-	if (Value > 0.0f) GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("LOOKUP! ++++"));
-	
 }
-
 
 void ACPP_BaseCharacter::Fire()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("FIRE!"));
+
 }
+
 
 // Called every frame
 void ACPP_BaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

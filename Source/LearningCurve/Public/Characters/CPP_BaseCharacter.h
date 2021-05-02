@@ -7,6 +7,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UStaticMeshComponent;
+class UChildActorComponent;
 
 UCLASS()
 class LEARNINGCURVE_API ACPP_BaseCharacter : public ACharacter
@@ -21,6 +22,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera") UCameraComponent* ThirdPersonCameraComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera") UCameraComponent* FirstPersonCameraComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player") UStaticMeshComponent* MeshComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon") UChildActorComponent* WeaponComp;
 
 protected:
 	// Called when the game starts or when spawned
