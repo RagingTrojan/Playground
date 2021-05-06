@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/Actor.h"
 #include "CPP_BaseWeapon.generated.h"
 
 class USkeletalMeshComponent;
+class UBillboardComponent;
+class ACPP_BaseProjectile;
 
 UCLASS()
 class LEARNINGCURVE_API ACPP_BaseWeapon : public AActor
@@ -18,10 +21,19 @@ public:
 	ACPP_BaseWeapon();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh") USkeletalMeshComponent* SkeletalMeshComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FirePoint") UBillboardComponent* FirePoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FireRate") float FireRate;
+	UPROPERTY(EditAnywhere, Category = "Projectile") TSubclassOf<class ACPP_BaseProjectile> Projectile;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void StartFiring(float Value);
+	void StopFiring();
+	void Fire();
+
+	FTimerHandle Handle_Fire;
 
 public:	
 	// Called every frame

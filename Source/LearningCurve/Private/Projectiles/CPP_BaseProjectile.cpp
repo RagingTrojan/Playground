@@ -11,6 +11,7 @@ ACPP_BaseProjectile::ACPP_BaseProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComp"));
+
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetupAttachment(RootComponent);
 }

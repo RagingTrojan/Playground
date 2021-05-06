@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/CPP_Interface.h"
 #include "CPP_BaseCharacter.generated.h"
 
 class USpringArmComponent;
@@ -10,7 +11,7 @@ class UStaticMeshComponent;
 class UChildActorComponent;
 
 UCLASS()
-class LEARNINGCURVE_API ACPP_BaseCharacter : public ACharacter
+class LEARNINGCURVE_API ACPP_BaseCharacter : public ACharacter, public ICPP_Interface
 {
 	GENERATED_BODY()
 
@@ -32,7 +33,8 @@ protected:
 	void MoveRight(float Value);
 	void LookRight(float Value);
 	void LookUp(float Value);
-	void Fire();
+	void FirePressed();
+	void FireReleased();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MovementSpeed") float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MovementSpeed") float BaseLookRate;

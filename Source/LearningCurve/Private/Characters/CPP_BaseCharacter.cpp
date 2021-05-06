@@ -7,6 +7,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/Controller.h"
 #include "Components/ChildActorComponent.h"
+#include "Interfaces/CPP_Interface.h"
 #include "Weapons/CPP_BaseWeapon.h"
 
 class ACCP_BaseWeapon;
@@ -33,6 +34,7 @@ ACPP_BaseCharacter::ACPP_BaseCharacter()
 
 	BaseLookRate = 45.0f;
 	BaseTurnRate = 45.0f;
+	ICPP_Interface* WeaponInterface = Cast<ICPP_Interface>(WeaponComp->GetChildActor()->GetClass()->ImplementsInterface(UCPP_Interface::StaticClass()));
 }
 
 // Called when the game starts or when spawned
@@ -73,11 +75,15 @@ void ACPP_BaseCharacter::LookUp(float Value)
 	if (Value != 0.0f) AddControllerPitchInput(Value * BaseLookRate * GetWorld()->GetDeltaSeconds());
 }
 
-void ACPP_BaseCharacter::Fire()
+void ACPP_BaseCharacter::FirePressed()
 {
-
+	WeaponInterface->I_FirePressed();
 }
 
+void ACPP_BaseCharacter::FireReleased()
+{
+	WeaponInterface->I_FireReleased();
+}
 
 // Called every frame
 void ACPP_BaseCharacter::Tick(float DeltaTime)
@@ -92,7 +98,8 @@ void ACPP_BaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ACPP_BaseCharacter::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ACPP_BaseCharacter::FirePressed);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ACPP_BaseCharacter::FireReleased);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACPP_BaseCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACPP_BaseCharacter::MoveRight);
